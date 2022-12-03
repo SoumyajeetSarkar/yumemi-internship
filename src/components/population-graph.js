@@ -22,7 +22,7 @@ function PopulationGraph({ data }) {
   ]
   console.log('here',data);
   return (
-    <div className="population-graph">
+    <div className="population-graph"> {/*REFFERENCE from ReCharts Docs: https://recharts.org/en-US/api */}
       <h2>Graph</h2>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart width={600} height={600} className="graph" margin={{left:20, top:25, right:20}}>

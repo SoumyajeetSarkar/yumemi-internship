@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import PopulationGraph from "./population-graph";
 import "./styles.css";
 function MainPage() {
-  const [pref, setPref] = useState([]);
-  const [selected, setSelected] = useState([]);
-  const [graphData, setGraphData] = useState([]);
-  useEffect(() => {
+  const [pref, setPref] = useState([]); //state variable which stores the prefecture list which is fetched from ReSAS.
+  const [selected, setSelected] = useState([]);  //state variable which stores the selected (checked) prefectures, when the user selects a prefecture it updates
+  const [graphData, setGraphData] = useState([]); //state variable which stores the dynamic graph data fetched from ReSAS everytime user selects or unselects a prefecture.
+  
+  useEffect(() => { //everytime component runs the list of prefectures is fetched only once and stored in 'pref' variable
     const getPrefectures = () => {
       fetch("https://opendata.resas-portal.go.jp/api/v1/prefectures", {
         method: "GET",
@@ -21,9 +22,9 @@ function MainPage() {
 
     getPrefectures();
   }, []);
-  console.log(pref, selected, graphData);
+  //console.log(pref, selected, graphData);
 
-  const getPopulationData = async (prefectureCodes) => {
+  const getPopulationData = async (prefectureCodes) => {  //this function calls the api and fetches the population data
     console.log('fetching population data');
     setGraphData([]);
     await Promise.all(
@@ -40,7 +41,7 @@ function MainPage() {
         )
           .then((res) => res.json())
           .then((data) =>
-            setGraphData((prev) => {
+            setGraphData((prev) => { //graphData is updated for every individual prefecture data
               let temp = {
                 name: pref[code - 1].prefName,
                 data: data.result.data[0].data,
@@ -54,15 +55,15 @@ function MainPage() {
   };
   
 
-  //function which changes state of selected prefectures and then calls getPopulationData which fetches data through API.
+  //this function is called when user selects or unselects a prefecture, it updates state variable 'selected' and calls 'getPopulationData'for the selected prefectures
   const onCheckBoxChange = (code) => {
-    if (selected.includes(code)) {
+    if (selected.includes(code)) {  //case: if user unselects an already selected prefecture
       var arr = selected.filter((value) => value != code);
-    } else {
+    } else {                        //case: if user selects a new prefecture
       var arr = [...selected, code];
     }
     setSelected(arr);
-    getPopulationData(arr);
+    getPopulationData(arr);  //gets data of updated selected list of prefectures and stores into variable 'graphData'
     //console.log(selected, "here");
   };
 
@@ -81,14 +82,14 @@ function MainPage() {
   );
 
   return (
-    <div className="check-list-wrapper">
+    <div className="check-list-wrapper">                  {/*wrapper of the main container*/}
       <h2 className="check-list_header">都道府県の人口数</h2>
-      <div className="check-list">
+      <div className="check-list">                        {/* displays list of all prefectures */}
         {pref.map((item) => (
-          <CheckItem name={item.prefName} code={item.prefCode} />
+          <CheckItem name={item.prefName} code={item.prefCode} /> 
         ))}
       </div>
-      <PopulationGraph data={graphData} />
+      <PopulationGraph data={graphData} />                {/* component which visualizes LineChart based on the GraphData passed to it*/}
     </div>
   );
 }
