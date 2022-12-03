@@ -1,3 +1,7 @@
+# About Project
+Created a single page web application to visualize "population trend over the years" of all the prefectures of Japan using Line Chart from ReCharts. I used ReSAS api for the population data. I also deployed the app using this Github repo and Netlify. The link to the working website is dowwn below so please take a look.
+link: https://yumemi-internship-soumyajeet.netlify.app/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
