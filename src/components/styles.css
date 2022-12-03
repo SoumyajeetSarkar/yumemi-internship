@@ -1,0 +1,50 @@
+.check-list-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: 670px;
+    height: 100vh;
+}
+
+.check-list_header {
+    width: 100%;
+    background: rgb(123, 122, 122);
+    margin: 0;
+    padding: 20px;
+}
+
+.check-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    height: 250px;
+    line-height: 5px;
+    overflow: scroll;
+}
+
+.check-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+.check-item input {
+    height: 30px;
+    width: 30px;
+}
+.population-graph {
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    border: 1px solid blue;
+}
+
