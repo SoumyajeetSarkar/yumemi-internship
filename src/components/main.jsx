@@ -28,47 +28,7 @@ function MainPage() {
 
     getPrefectures();
   }, []);
-  //console.log(pref, selected, graphData);
-  // useEffect(() => {
-  //   console.log(selected);
-  // }, [graphData]);
-  // const getPopulationData = async (prefectureCodes) => {
-  //   //this function calls the api and fetches the population data
-  //   //console.log("fetching population data");
-  //   setGraphData([]);
-  //   await Promise.all(
-  //     prefectureCodes.forEach(async (code) => {
-  //       //try {
-  //         await fetch(
-  //           `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${code}`,
-  //           {
-  //             method: "GET",
-  //             headers: {
-  //               "X-API-KEY": process.env.REACT_APP_API_KEY,
-  //               "Content-Type": "application/json;charset=UTF-8",
-  //             },
-  //           }
-  //         )
-  //           .then((res) => res.json())
-  //           .then((data) =>
-  //             setGraphData((prev) => {
-  //               //graphData is updated for every individual prefecture data
-  //               let temp = {
-  //                 name: pref[code - 1].prefName,
-  //                 data: data.result.data[0].data,
-  //               };
-  //               return [...prev, temp];
-  //             })
-  //           );
-  //       // } catch (error) {
-  //       //   console.log(error);
-  //       //   setError(error);
-  //       // }
-  //     })
-  //   )
-  //   //console.log("i fire multiple times", graphData);
-  // };
-  //console.log(graphData,'here')
+ 
 
   const getPopulationData = async (code) => {
     try {
