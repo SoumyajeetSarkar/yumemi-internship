@@ -23,7 +23,7 @@ function MainPage() {
         console.log(error);
         setError(error);
       }
-      console.log("i fire once");
+      //console.log("i fire once");
     };
 
     getPrefectures();
@@ -32,9 +32,10 @@ function MainPage() {
 
   const getPopulationData = async (prefectureCodes) => {
     //this function calls the api and fetches the population data
-    console.log("fetching population data");
+    //console.log("fetching population data");
     setGraphData([]);
     await Promise.all(
+      
       prefectureCodes.forEach(async (code) => {
         try {
           await fetch(
@@ -63,8 +64,8 @@ function MainPage() {
           setError(error);
         }
       })
-    );
-    console.log("i fire multiple times", graphData);
+    )
+    //console.log("i fire multiple times", graphData);
   };
 
   //this function is called when user selects or unselects a prefecture, it updates state variable 'selected' and calls 'getPopulationData'for the selected prefectures

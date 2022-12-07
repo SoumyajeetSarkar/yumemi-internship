@@ -20,7 +20,7 @@ function PopulationGraph({ data }) {
     'grey',
     'pink'
   ]
-  console.log('here',data);
+  //console.log('here',data);
   return (
     <div className="population-graph"> {/*REFFERENCE from ReCharts Docs: https://recharts.org/en-US/api */}
       <h2>Graph</h2>
