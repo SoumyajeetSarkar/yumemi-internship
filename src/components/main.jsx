@@ -20,10 +20,10 @@ function MainPage() {
           .then((res) => res.json())
           .then((data) => setPref(data.result));
       } catch (error) {
-        console.log(error);
+        
         setError(error);
       }
-      //console.log("i fire once");
+      
     };
 
     getPrefectures();
@@ -53,8 +53,9 @@ function MainPage() {
             return [...prev, temp];
           })
         );
-    } catch (error) {
-
+    } catch (error) { //if there is error the user will be notified of the error
+      
+        setError(error);
     }
   };
 
@@ -108,7 +109,7 @@ function MainPage() {
           <CheckItem name={item.prefName} code={item.prefCode} />
         ))}
       </div>
-      <h4 style={{ color: "red" }}>{error ? error : ""}</h4>
+      <h4 style={{ color: "red" }}>{error ? error : ""}</h4> {/*if there is error calling api, it will be displayed in red */}
       <PopulationGraph data={graphData} />{" "}
       {/* component which visualizes LineChart based on the GraphData passed to it*/}
     </div>
