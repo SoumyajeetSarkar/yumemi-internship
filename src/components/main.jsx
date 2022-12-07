@@ -29,58 +29,92 @@ function MainPage() {
     getPrefectures();
   }, []);
   //console.log(pref, selected, graphData);
+  // useEffect(() => {
+  //   console.log(selected);
+  // }, [graphData]);
+  // const getPopulationData = async (prefectureCodes) => {
+  //   //this function calls the api and fetches the population data
+  //   //console.log("fetching population data");
+  //   setGraphData([]);
+  //   await Promise.all(
+  //     prefectureCodes.forEach(async (code) => {
+  //       //try {
+  //         await fetch(
+  //           `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${code}`,
+  //           {
+  //             method: "GET",
+  //             headers: {
+  //               "X-API-KEY": process.env.REACT_APP_API_KEY,
+  //               "Content-Type": "application/json;charset=UTF-8",
+  //             },
+  //           }
+  //         )
+  //           .then((res) => res.json())
+  //           .then((data) =>
+  //             setGraphData((prev) => {
+  //               //graphData is updated for every individual prefecture data
+  //               let temp = {
+  //                 name: pref[code - 1].prefName,
+  //                 data: data.result.data[0].data,
+  //               };
+  //               return [...prev, temp];
+  //             })
+  //           );
+  //       // } catch (error) {
+  //       //   console.log(error);
+  //       //   setError(error);
+  //       // }
+  //     })
+  //   )
+  //   //console.log("i fire multiple times", graphData);
+  // };
+  //console.log(graphData,'here')
 
-  const getPopulationData = async (prefectureCodes) => {
-    //this function calls the api and fetches the population data
-    //console.log("fetching population data");
-    setGraphData([]);
-    await Promise.all(
-      
-      prefectureCodes.forEach(async (code) => {
-        try {
-          await fetch(
-            `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${code}`,
-            {
-              method: "GET",
-              headers: {
-                "X-API-KEY": process.env.REACT_APP_API_KEY,
-                "Content-Type": "application/json;charset=UTF-8",
-              },
-            }
-          )
-            .then((res) => res.json())
-            .then((data) =>
-              setGraphData((prev) => {
-                //graphData is updated for every individual prefecture data
-                let temp = {
-                  name: pref[code - 1].prefName,
-                  data: data.result.data[0].data,
-                };
-                return [...prev, temp];
-              })
-            );
-        } catch (error) {
-          console.log(error);
-          setError(error);
+  const getPopulationData = async (code) => {
+    try {
+      await fetch(
+        `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${code}`,
+        {
+          method: "GET",
+          headers: {
+            "X-API-KEY": process.env.REACT_APP_API_KEY,
+            "Content-Type": "application/json;charset=UTF-8",
+          },
         }
-      })
-    )
-    //console.log("i fire multiple times", graphData);
+      )
+        .then((res) => res.json())
+        .then((data) =>
+          setGraphData((prev) => {
+            //graphData is updated for the current prefecture data
+            let temp = {
+              name: pref[code - 1].prefName,
+              data: data.result.data[0].data,
+            };
+            return [...prev, temp];
+          })
+        );
+    } catch (error) {
+
+    }
   };
 
   //this function is called when user selects or unselects a prefecture, it updates state variable 'selected' and calls 'getPopulationData'for the selected prefectures
   const onCheckBoxChange = (code) => {
-    var arr=[]
+    var arr = [];
     if (selected.includes(code)) {
       //case: if user unselects an already selected prefecture
+      setGraphData((prev)=>{
+        let temp = prev.filter((data)=>data.name!==pref[code-1].prefName)
+        return temp
+      })
       arr = selected.filter((value) => value !== code);
     } else {
       //case: if user selects a new prefecture
+      getPopulationData(code)
       arr = [...selected, code];
     }
     setSelected(arr);
-    getPopulationData(arr); //gets data of updated selected list of prefectures and stores into variable 'graphData'
-    //console.log(selected, "here");
+    //gets data of updated selected list of prefectures and stores into variable 'graphData'
   };
 
   //JSX function to display prefecture name and the corresponding checkbox
@@ -114,7 +148,7 @@ function MainPage() {
           <CheckItem name={item.prefName} code={item.prefCode} />
         ))}
       </div>
-      <h4 style={{color:'red'}}>{error? error: ''}</h4>
+      <h4 style={{ color: "red" }}>{error ? error : ""}</h4>
       <PopulationGraph data={graphData} />{" "}
       {/* component which visualizes LineChart based on the GraphData passed to it*/}
     </div>
